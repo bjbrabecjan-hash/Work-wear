@@ -24,6 +24,10 @@
       box-sizing: border-box;
     }
 
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -31,6 +35,7 @@
       color: var(--ink);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.5;
+      overflow-x: hidden;
     }
 
     .page {
@@ -296,7 +301,7 @@
     .line-inseam {
       top: 52%;
       left: 52%;
-      width: 33%;
+      width: 45%;
       transform: rotate(84deg);
     }
 
@@ -321,7 +326,7 @@
     }
 
     .dot-inseam {
-      top: 66%;
+      top: 83%;
       left: 57%;
     }
 
@@ -405,38 +410,151 @@
       transform: translateY(1px);
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 760px), (pointer: coarse) and (max-width: 920px) {
       .page {
-        padding: 20px 12px;
+        padding: 0;
+      }
+
+      .form-card {
+        min-height: 100vh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
       }
 
       .header,
       .content,
       .actions {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 16px;
+        padding-right: 16px;
       }
 
       .header {
         align-items: flex-start;
         flex-direction: column;
+        gap: 12px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+
+      .brand-mark {
+        width: 44px;
+        height: 44px;
+        font-size: 15px;
+      }
+
+      h1 {
+        font-size: 24px;
       }
 
       .meta {
+        min-width: 0;
+        font-size: 12px;
         text-align: left;
+      }
+
+      .content {
+        padding-top: 22px;
+        padding-bottom: 24px;
+      }
+
+      .intro,
+      .section-copy {
+        max-width: none;
+        font-size: 13px;
       }
 
       .grid,
       .measurement-grid {
         grid-template-columns: 1fr;
+        gap: 18px;
       }
 
       .eu-alert {
         font-size: 18px;
+        padding: 14px;
+      }
+
+      .measurement-panel {
+        margin-top: 26px;
+        padding-top: 22px;
+      }
+
+      .measurement-figure {
+        width: min(100%, 320px);
+        margin: 0 auto;
+        padding: 12px;
       }
 
       table {
-        min-width: 620px;
+        min-width: 0;
+      }
+
+      .table-wrap {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+      }
+
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      table,
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tbody {
+        display: grid;
+        gap: 10px;
+      }
+
+      tr {
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      td {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 7px 0;
+        border-bottom: 1px solid #edf0f3;
+        white-space: normal;
+        text-align: right;
+      }
+
+      td:last-child {
+        border-bottom: 0;
+      }
+
+      td::before {
+        content: attr(data-label);
+        min-width: 42%;
+        color: #344054;
+        font-weight: 800;
+        text-align: left;
+      }
+
+      .actions {
+        justify-content: stretch;
+        padding-top: 18px;
+        padding-bottom: 22px;
+      }
+
+      button {
+        width: 100%;
       }
     }
 
@@ -670,7 +788,33 @@
     </form>
   </main>
   <script>
+    const phoneQuery = window.matchMedia("(max-width: 760px), (pointer: coarse) and (max-width: 920px)");
     const dateField = document.getElementById("form-date");
+
+    function updateDeviceMode() {
+      document.body.classList.toggle("is-phone", phoneQuery.matches);
+    }
+
+    function addTableLabels() {
+      document.querySelectorAll("table").forEach((table) => {
+        const labels = Array.from(table.querySelectorAll("thead th")).map((header) => header.textContent.trim());
+
+        table.querySelectorAll("tbody tr").forEach((row) => {
+          row.querySelectorAll("td").forEach((cell, index) => {
+            cell.dataset.label = labels[index] || "";
+          });
+        });
+      });
+    }
+
+    updateDeviceMode();
+    addTableLabels();
+
+    if (phoneQuery.addEventListener) {
+      phoneQuery.addEventListener("change", updateDeviceMode);
+    } else {
+      phoneQuery.addListener(updateDeviceMode);
+    }
 
     if (dateField) {
       dateField.valueAsDate = new Date();
