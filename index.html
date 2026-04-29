@@ -14,6 +14,9 @@
       --line: #d7dde5;
       --brand: #1f4e79;
       --brand-dark: #173b5c;
+      --danger: #b42318;
+      --danger-bg: #fff1f0;
+      --danger-line: #f4b8b0;
       --field: #f9fafb;
     }
 
@@ -31,7 +34,7 @@
     }
 
     .page {
-      width: min(100%, 840px);
+      width: min(100%, 980px);
       margin: 0 auto;
       padding: 40px 20px;
     }
@@ -77,7 +80,7 @@
       color: var(--brand);
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
 
@@ -101,9 +104,32 @@
 
     .intro {
       max-width: 620px;
-      margin: 0 0 28px;
+      margin: 0 0 18px;
       color: var(--muted);
       font-size: 14px;
+    }
+
+    .eu-alert {
+      margin: 0 0 28px;
+      padding: 16px 18px;
+      border: 2px solid var(--danger-line);
+      border-left: 8px solid var(--danger);
+      border-radius: 8px;
+      background: var(--danger-bg);
+      color: var(--danger);
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .eu-alert span {
+      display: block;
+      margin-top: 4px;
+      color: #7a271a;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: none;
     }
 
     .grid {
@@ -118,6 +144,12 @@
 
     .field.full {
       grid-column: 1 / -1;
+    }
+
+    .field-note {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     label {
@@ -147,6 +179,201 @@
       border-color: var(--brand);
       background: #ffffff;
       box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.16);
+    }
+
+    .measurement-panel {
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .section-copy {
+      max-width: 720px;
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .measurement-grid {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .measurement-figure {
+      margin: 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .measurement-art {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #c8d0da;
+      border-radius: 6px;
+      background: #eef3f8;
+    }
+
+    .measurement-art img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .measure-line,
+    .measure-dot {
+      position: absolute;
+      z-index: 1;
+    }
+
+    .measure-line {
+      height: 4px;
+      border-radius: 999px;
+      background: var(--danger);
+      box-shadow: 0 1px 3px rgba(23, 32, 42, 0.2);
+      transform-origin: left center;
+    }
+
+    .measure-line.blue {
+      background: var(--brand);
+    }
+
+    .measure-dot {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      background: var(--danger);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1;
+      box-shadow: 0 2px 6px rgba(23, 32, 42, 0.24);
+      transform: translate(-50%, -50%);
+    }
+
+    .measure-dot.blue {
+      background: var(--brand);
+    }
+
+    .line-neck {
+      top: 20%;
+      left: 42%;
+      width: 16%;
+    }
+
+    .line-chest {
+      top: 30%;
+      left: 31%;
+      width: 38%;
+    }
+
+    .line-waist {
+      top: 43%;
+      left: 36%;
+      width: 28%;
+    }
+
+    .line-sleeve {
+      top: 31%;
+      left: 69%;
+      width: 25%;
+      transform: rotate(72deg);
+    }
+
+    .line-inseam {
+      top: 52%;
+      left: 52%;
+      width: 33%;
+      transform: rotate(84deg);
+    }
+
+    .dot-neck {
+      top: 20%;
+      left: 50%;
+    }
+
+    .dot-chest {
+      top: 30%;
+      left: 50%;
+    }
+
+    .dot-waist {
+      top: 43%;
+      left: 50%;
+    }
+
+    .dot-sleeve {
+      top: 39%;
+      left: 79%;
+    }
+
+    .dot-inseam {
+      top: 66%;
+      left: 57%;
+    }
+
+    .measurement-figure figcaption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chart-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .chart-title {
+      margin: 0 0 10px;
+      color: #344054;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    table {
+      width: 100%;
+      min-width: 560px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #eef3f8;
+      color: #344054;
+      font-weight: 800;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
     }
 
     .actions {
@@ -199,8 +426,17 @@
         text-align: left;
       }
 
-      .grid {
+      .grid,
+      .measurement-grid {
         grid-template-columns: 1fr;
+      }
+
+      .eu-alert {
+        font-size: 18px;
+      }
+
+      table {
+        min-width: 620px;
       }
     }
 
@@ -228,6 +464,24 @@
       select {
         background: #ffffff;
       }
+
+      .measurement-panel {
+        break-inside: avoid;
+      }
+
+      .table-wrap {
+        overflow: visible;
+      }
+
+      table {
+        min-width: 0;
+        font-size: 11px;
+      }
+
+      th,
+      td {
+        padding: 7px 8px;
+      }
     }
   </style>
 </head>
@@ -247,6 +501,10 @@
         <p class="intro">
           Please complete the sizing details below. The selected sizes will be used for workwear and safety footwear ordering.
         </p>
+        <div class="eu-alert">
+          EU size only
+          <span>Do not enter Asian size labels. Measure in centimetres and choose the closest EU size.</span>
+        </div>
 
         <div class="grid">
           <div class="field full">
@@ -255,38 +513,42 @@
           </div>
 
           <div class="field">
-            <label for="shoe-size">Shoe Size</label>
+            <label for="shoe-size">Safety Shoe Size (EU)</label>
             <select id="shoe-size" name="shoe-size">
-              <option>US 6 &rarr; EU 38</option>
-              <option>US 7 &rarr; EU 39</option>
-              <option>US 8 &rarr; EU 41</option>
-              <option>US 9 &rarr; EU 42</option>
-              <option>US 10 &rarr; EU 43</option>
-              <option>US 11 &rarr; EU 45</option>
+              <option>EU 38 (US 6)</option>
+              <option>EU 39 (US 7)</option>
+              <option>EU 41 (US 8)</option>
+              <option>EU 42 (US 9)</option>
+              <option>EU 43 (US 10)</option>
+              <option>EU 45 (US 11)</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="workwear-size">Workwear Size</label>
+            <label for="workwear-size">Workwear Size (EU)</label>
             <select id="workwear-size" name="workwear-size">
-              <option>XS &rarr; 44&ndash;46</option>
-              <option>S &rarr; 46&ndash;48</option>
-              <option>M &rarr; 48&ndash;50</option>
-              <option>L &rarr; 50&ndash;52</option>
-              <option>XL &rarr; 52&ndash;54</option>
-              <option>XXL &rarr; 54&ndash;56</option>
+              <option>EU XS &rarr; 44&ndash;46</option>
+              <option>EU S &rarr; 46&ndash;48</option>
+              <option>EU M &rarr; 48&ndash;50</option>
+              <option>EU L &rarr; 50&ndash;52</option>
+              <option>EU XL &rarr; 52&ndash;54</option>
+              <option>EU XXL &rarr; 54&ndash;56</option>
+              <option>EU 3XL &rarr; 56&ndash;58</option>
+              <option>EU 4XL &rarr; 58&ndash;60</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="t-shirt-size">T-shirt Size</label>
+            <label for="t-shirt-size">T-shirt Size (EU)</label>
             <select id="t-shirt-size" name="t-shirt-size">
-              <option>XS</option>
-              <option>S</option>
-              <option>M</option>
-              <option>L</option>
-              <option>XL</option>
-              <option>XXL</option>
+              <option>EU XS</option>
+              <option>EU S</option>
+              <option>EU M</option>
+              <option>EU L</option>
+              <option>EU XL</option>
+              <option>EU XXL</option>
+              <option>EU 3XL</option>
+              <option>EU 4XL</option>
             </select>
           </div>
 
@@ -294,11 +556,116 @@
             <label for="form-date">Date</label>
             <input id="form-date" name="form-date" type="date">
           </div>
+
+          <div class="field">
+            <label for="chest-cm">Chest Measurement (cm)</label>
+            <input id="chest-cm" name="chest-cm" type="number" min="60" max="180" step="0.5" inputmode="decimal">
+            <p class="field-note">Measure around the widest part of the chest.</p>
+          </div>
+
+          <div class="field">
+            <label for="waist-cm">Waist Measurement (cm)</label>
+            <input id="waist-cm" name="waist-cm" type="number" min="50" max="160" step="0.5" inputmode="decimal">
+            <p class="field-note">Measure around the natural waistline.</p>
+          </div>
+
+          <div class="field">
+            <label for="inseam-cm">Inside Leg Measurement (cm)</label>
+            <input id="inseam-cm" name="inseam-cm" type="number" min="50" max="110" step="0.5" inputmode="decimal">
+            <p class="field-note">Measure from crotch to ankle.</p>
+          </div>
         </div>
+
+        <section class="measurement-panel" aria-labelledby="measurement-guide-title">
+          <h2 class="section-heading" id="measurement-guide-title">Measurement Guide</h2>
+          <p class="section-copy">
+            Use a soft measuring tape. Keep the tape level and close to the body, but not tight. Centimetres are preferred; inches are shown only as a reference.
+          </p>
+
+          <div class="measurement-grid">
+            <figure class="measurement-figure">
+              <div class="measurement-art" role="img" aria-label="Filipino worker measurement guide showing neck, chest, waist, sleeve and inside leg measurement points.">
+                <img src="assets/filipino-worker-measurement.png" alt="">
+                <span class="measure-line line-neck" aria-hidden="true"></span>
+                <span class="measure-line line-chest" aria-hidden="true"></span>
+                <span class="measure-line line-waist" aria-hidden="true"></span>
+                <span class="measure-line blue line-sleeve" aria-hidden="true"></span>
+                <span class="measure-line blue line-inseam" aria-hidden="true"></span>
+                <span class="measure-dot dot-neck" aria-hidden="true">1</span>
+                <span class="measure-dot dot-chest" aria-hidden="true">2</span>
+                <span class="measure-dot dot-waist" aria-hidden="true">3</span>
+                <span class="measure-dot blue dot-sleeve" aria-hidden="true">4</span>
+                <span class="measure-dot blue dot-inseam" aria-hidden="true">5</span>
+              </div>
+              <figcaption>
+                1 Neck, 2 Chest, 3 Waist, 4 Sleeve, 5 Inside leg. Enter actual measured centimetres when possible.
+              </figcaption>
+            </figure>
+
+            <div class="chart-stack">
+              <div>
+                <p class="chart-title">T-shirt and upper body reference</p>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>EU size</th>
+                        <th>Neck cm</th>
+                        <th>Neck in</th>
+                        <th>Chest cm</th>
+                        <th>Chest in</th>
+                        <th>Sleeve cm</th>
+                        <th>Sleeve in</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>XS</td><td>35&ndash;36</td><td>14.0</td><td>98</td><td>38.6</td><td>64</td><td>25.2</td></tr>
+                      <tr><td>S</td><td>37&ndash;38</td><td>14.8</td><td>104</td><td>40.9</td><td>64.5</td><td>25.4</td></tr>
+                      <tr><td>M</td><td>39&ndash;40</td><td>15.6</td><td>110</td><td>43.3</td><td>65.5</td><td>25.8</td></tr>
+                      <tr><td>L</td><td>40&ndash;41</td><td>16.3</td><td>117</td><td>46.1</td><td>66</td><td>26.0</td></tr>
+                      <tr><td>XL</td><td>42&ndash;43</td><td>17.1</td><td>124</td><td>48.8</td><td>66.5</td><td>26.2</td></tr>
+                      <tr><td>XXL</td><td>45&ndash;46</td><td>17.9</td><td>132</td><td>52.0</td><td>67</td><td>26.4</td></tr>
+                      <tr><td>3XL</td><td>46&ndash;47</td><td>18.7</td><td>140</td><td>55.1</td><td>67</td><td>26.4</td></tr>
+                      <tr><td>4XL</td><td>48&ndash;49</td><td>19.5</td><td>150</td><td>59.0</td><td>67</td><td>26.4</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div>
+                <p class="chart-title">Pants and workwear EU size reference</p>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>EU size</th>
+                        <th>Waist cm</th>
+                        <th>Waist in</th>
+                        <th>Typical alpha</th>
+                        <th>Inside leg</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>44</td><td>76&ndash;79</td><td>30&ndash;31</td><td>XS</td><td>Measure actual cm</td></tr>
+                      <tr><td>46</td><td>80&ndash;83</td><td>31.5&ndash;32.5</td><td>S</td><td>Measure actual cm</td></tr>
+                      <tr><td>48</td><td>84&ndash;87</td><td>33&ndash;34</td><td>M</td><td>Measure actual cm</td></tr>
+                      <tr><td>50</td><td>88&ndash;91</td><td>34.5&ndash;36</td><td>L</td><td>Measure actual cm</td></tr>
+                      <tr><td>52</td><td>92&ndash;95</td><td>36&ndash;37.5</td><td>XL</td><td>Measure actual cm</td></tr>
+                      <tr><td>54</td><td>96&ndash;99</td><td>38&ndash;39</td><td>XXL</td><td>Measure actual cm</td></tr>
+                      <tr><td>56</td><td>100&ndash;103</td><td>39.5&ndash;40.5</td><td>XXL</td><td>Measure actual cm</td></tr>
+                      <tr><td>58</td><td>104&ndash;107</td><td>41&ndash;42</td><td>3XL</td><td>Measure actual cm</td></tr>
+                      <tr><td>60</td><td>108&ndash;111</td><td>42.5&ndash;43.5</td><td>4XL</td><td>Measure actual cm</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </section>
 
       <div class="actions">
-        <button type="button" onclick="window.print()">Download / Save as PDF</button>
+        <button type="button" onclick="window.print()">Save / Share as PDF</button>
       </div>
     </form>
   </main>
