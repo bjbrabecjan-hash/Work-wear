@@ -208,7 +208,7 @@
 
     .converter-card {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       gap: 16px;
       align-items: end;
       margin: 0 0 24px;
@@ -236,6 +236,22 @@
       font-weight: 800;
       text-align: center;
       white-space: nowrap;
+    }
+
+    .copy-button {
+      min-width: 92px;
+      padding: 0 14px;
+      background: #344054;
+    }
+
+    .copy-button:hover {
+      background: #1d2939;
+    }
+
+    .copy-button:disabled {
+      background: #98a2b3;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .measurement-grid {
@@ -755,6 +771,7 @@
               <input id="inch-converter" name="inch-converter" type="number" min="0" step="0.1" inputmode="decimal" placeholder="Enter inches">
             </div>
             <output class="converter-result" id="cm-result" for="inch-converter">0 cm</output>
+            <button class="copy-button" id="copy-cm" type="button" disabled>Copy cm</button>
           </div>
 
           <div class="measurement-grid">
@@ -849,6 +866,7 @@
     const dateField = document.getElementById("form-date");
     const inchInput = document.getElementById("inch-converter");
     const cmResult = document.getElementById("cm-result");
+    const copyCmButton = document.getElementById("copy-cm");
 
     function updateDeviceMode() {
       document.body.classList.toggle("is-phone", phoneQuery.matches);
@@ -872,7 +890,49 @@
       }
 
       const inches = Number.parseFloat(inchInput.value);
-      cmResult.textContent = Number.isFinite(inches) ? `${(inches * 2.54).toFixed(1)} cm` : "0 cm";
+      const cm = Number.isFinite(inches) ? (inches * 2.54).toFixed(1) : "";
+      cmResult.textContent = cm ? `${cm} cm` : "0 cm";
+      cmResult.dataset.copyValue = cm;
+
+      if (copyCmButton) {
+        copyCmButton.disabled = !cm;
+        copyCmButton.textContent = "Copy cm";
+      }
+    }
+
+    async function copyCmValue() {
+      if (!cmResult || !cmResult.dataset.copyValue) {
+        return;
+      }
+
+      const value = cmResult.dataset.copyValue;
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(value);
+        } else {
+          const fallback = document.createElement("textarea");
+          fallback.value = value;
+          fallback.setAttribute("readonly", "");
+          fallback.style.position = "fixed";
+          fallback.style.left = "-9999px";
+          document.body.appendChild(fallback);
+          fallback.select();
+          document.execCommand("copy");
+          fallback.remove();
+        }
+
+        if (copyCmButton) {
+          copyCmButton.textContent = "Copied";
+          window.setTimeout(() => {
+            copyCmButton.textContent = "Copy cm";
+          }, 1400);
+        }
+      } catch {
+        if (copyCmButton) {
+          copyCmButton.textContent = "Try again";
+        }
+      }
     }
 
     updateDeviceMode();
@@ -881,6 +941,10 @@
 
     if (inchInput) {
       inchInput.addEventListener("input", updateConverter);
+    }
+
+    if (copyCmButton) {
+      copyCmButton.addEventListener("click", copyCmValue);
     }
 
     if (phoneQuery.addEventListener) {
