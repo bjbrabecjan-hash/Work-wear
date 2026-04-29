@@ -254,6 +254,46 @@
       transform: none;
     }
 
+    .print-summary {
+      display: none;
+    }
+
+    .print-summary-title {
+      margin: 0 0 18px;
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .print-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .print-row {
+      min-height: 58px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #ffffff;
+    }
+
+    .print-label {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .print-value {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
     .measurement-grid {
       display: grid;
       grid-template-columns: 260px minmax(0, 1fr);
@@ -618,6 +658,10 @@
     }
 
     @media print {
+      @page {
+        margin: 14mm;
+      }
+
       body {
         background: #ffffff;
       }
@@ -633,6 +677,10 @@
         box-shadow: none;
       }
 
+      .intro,
+      .eu-alert,
+      .grid,
+      .measurement-panel,
       .actions {
         display: none;
       }
@@ -642,22 +690,31 @@
         background: #ffffff;
       }
 
-      .measurement-panel {
+      .content {
+        padding: 24px 32px;
+      }
+
+      .header {
+        padding: 20px 32px;
+        background: #ffffff;
+      }
+
+      .brand-mark {
+        color: #ffffff;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .print-summary {
+        display: block;
+      }
+
+      .print-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .print-row {
         break-inside: avoid;
-      }
-
-      .table-wrap {
-        overflow: visible;
-      }
-
-      table {
-        min-width: 0;
-        font-size: 11px;
-      }
-
-      th,
-      td {
-        padding: 7px 8px;
       }
     }
   </style>
@@ -758,6 +815,11 @@
             <p class="field-note">Measure from crotch to ankle.</p>
           </div>
         </div>
+
+        <section class="print-summary" aria-labelledby="print-summary-title">
+          <h2 class="print-summary-title" id="print-summary-title">Workwear Details</h2>
+          <div class="print-summary-grid" id="print-summary-rows"></div>
+        </section>
 
         <section class="measurement-panel" aria-labelledby="measurement-guide-title">
           <h2 class="section-heading" id="measurement-guide-title">Measurement Guide</h2>
@@ -867,6 +929,19 @@
     const inchInput = document.getElementById("inch-converter");
     const cmResult = document.getElementById("cm-result");
     const copyCmButton = document.getElementById("copy-cm");
+    const printSummaryRows = document.getElementById("print-summary-rows");
+
+    const printFields = [
+      { id: "full-name", label: "Full Name" },
+      { id: "form-date", label: "Date" },
+      { id: "shoe-size", label: "Safety Shoe Size" },
+      { id: "workwear-size", label: "Workwear Size" },
+      { id: "t-shirt-size", label: "T-shirt Size" },
+      { id: "chest-cm", label: "Chest Measurement", unit: "cm" },
+      { id: "sleeve-cm", label: "Sleeve Measurement", unit: "cm" },
+      { id: "waist-cm", label: "Waist Measurement", unit: "cm" },
+      { id: "inseam-cm", label: "Inside Leg Measurement", unit: "cm" }
+    ];
 
     function updateDeviceMode() {
       document.body.classList.toggle("is-phone", phoneQuery.matches);
@@ -935,9 +1010,53 @@
       }
     }
 
+    function getFieldValue(field) {
+      const control = document.getElementById(field.id);
+
+      if (!control) {
+        return "-";
+      }
+
+      const value = control.value.trim();
+
+      if (!value) {
+        return "-";
+      }
+
+      if (field.unit) {
+        return `${value} ${field.unit}`;
+      }
+
+      return value;
+    }
+
+    function updatePrintSummary() {
+      if (!printSummaryRows) {
+        return;
+      }
+
+      printSummaryRows.replaceChildren();
+
+      printFields.forEach((field) => {
+        const row = document.createElement("div");
+        const label = document.createElement("span");
+        const value = document.createElement("span");
+
+        row.className = "print-row";
+        label.className = "print-label";
+        value.className = "print-value";
+        label.textContent = field.label;
+        value.textContent = getFieldValue(field);
+
+        row.append(label, value);
+        printSummaryRows.append(row);
+      });
+    }
+
     updateDeviceMode();
     addTableLabels();
     updateConverter();
+    updatePrintSummary();
 
     if (inchInput) {
       inchInput.addEventListener("input", updateConverter);
@@ -956,6 +1075,14 @@
     if (dateField) {
       dateField.valueAsDate = new Date();
     }
+
+    document.querySelectorAll("input, select").forEach((control) => {
+      control.addEventListener("input", updatePrintSummary);
+      control.addEventListener("change", updatePrintSummary);
+    });
+
+    window.addEventListener("beforeprint", updatePrintSummary);
+    updatePrintSummary();
   </script>
 </body>
 </html>
