@@ -206,6 +206,38 @@
       font-size: 14px;
     }
 
+    .converter-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: end;
+      margin: 0 0 24px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f9fafb;
+    }
+
+    .converter-card label {
+      margin-bottom: 6px;
+    }
+
+    .converter-result {
+      display: grid;
+      align-content: center;
+      min-width: 130px;
+      min-height: 44px;
+      padding: 10px 14px;
+      border: 1px solid #c8d0da;
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--brand);
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      white-space: nowrap;
+    }
+
     .measurement-grid {
       display: grid;
       grid-template-columns: 260px minmax(0, 1fr);
@@ -486,6 +518,17 @@
         padding: 12px;
       }
 
+      .converter-card {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .converter-result {
+        min-width: 0;
+        width: 100%;
+      }
+
       table {
         min-width: 0;
       }
@@ -700,6 +743,14 @@
             Use a soft measuring tape. Keep the tape level and close to the body, but not tight. Centimetres are preferred; inches are shown only as a reference.
           </p>
 
+          <div class="converter-card" aria-label="Inches to centimetres converter">
+            <div>
+              <label for="inch-converter">Inches to cm converter</label>
+              <input id="inch-converter" name="inch-converter" type="number" min="0" step="0.1" inputmode="decimal" placeholder="Enter inches">
+            </div>
+            <output class="converter-result" id="cm-result" for="inch-converter">0 cm</output>
+          </div>
+
           <div class="measurement-grid">
             <figure class="measurement-figure">
               <div class="measurement-art" role="img" aria-label="Filipino worker measurement guide showing neck, chest, waist, sleeve and inside leg measurement points.">
@@ -790,6 +841,8 @@
   <script>
     const phoneQuery = window.matchMedia("(max-width: 760px), (pointer: coarse) and (max-width: 920px)");
     const dateField = document.getElementById("form-date");
+    const inchInput = document.getElementById("inch-converter");
+    const cmResult = document.getElementById("cm-result");
 
     function updateDeviceMode() {
       document.body.classList.toggle("is-phone", phoneQuery.matches);
@@ -807,8 +860,22 @@
       });
     }
 
+    function updateConverter() {
+      if (!inchInput || !cmResult) {
+        return;
+      }
+
+      const inches = Number.parseFloat(inchInput.value);
+      cmResult.textContent = Number.isFinite(inches) ? `${(inches * 2.54).toFixed(1)} cm` : "0 cm";
+    }
+
     updateDeviceMode();
     addTableLabels();
+    updateConverter();
+
+    if (inchInput) {
+      inchInput.addEventListener("input", updateConverter);
+    }
 
     if (phoneQuery.addEventListener) {
       phoneQuery.addEventListener("change", updateDeviceMode);
